@@ -1,0 +1,13 @@
+#pragma once
+class Particle
+{
+	public:
+		Vector2d pos, vel, acc;
+		float radius, density;
+	private:
+	
+	public:
+		float getMass();	
+	private:
+
+}
