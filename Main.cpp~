@@ -1,10 +1,10 @@
 #include<iostream>
 
-class main
+#include"Sim.h"
+
+int main()
 {
-	int main()
-	{
-		std::cout << "Hello, World!\n";
-		return 0;
-	}
+	Sim sim = Sim::Sim();
+	return 0;
 }
+

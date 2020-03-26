@@ -1,15 +1,7 @@
-#pragma once
-#include<vector>
+#include"Sim.h"
+#include<iostream>
 
-class Sim
+Sim::Sim()
 {
-	public:
-		
-	private: 
-		std::vector<Particle> particles;
-	private:
-		void update();
-		void render();
-	public: 
-		void run();
-}	
+	std::cout << "Simulation started.\n";
+}

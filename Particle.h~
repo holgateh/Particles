@@ -1,4 +1,6 @@
 #pragma once
+
+#include"Vector2d.h"
 class Particle
 {
 	public:
@@ -11,4 +13,4 @@ class Particle
 		float getMass();	
 	private:
 
-}
+};

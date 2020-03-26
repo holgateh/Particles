@@ -1,8 +1,10 @@
 #include<iostream>
 
+#include"Sim.h"
+
 int main()
 {
-	std::cout << "Hello, World!\n";
+	Sim sim; 
 	return 0;
 }
 
