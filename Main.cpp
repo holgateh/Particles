@@ -1,5 +1,4 @@
 #include<iostream>
-
 #include"Sim.h"
 
 int main()

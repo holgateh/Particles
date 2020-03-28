@@ -1,0 +1,11 @@
+#include"Particle.h"
+
+Particle::Particle(Vector2d pos, Vector2d vel, Vector2d acc, float radius, float density)
+{
+
+}
+
+float Particle getMass()
+{
+	return M_PI * radius * raduis * density;
+}

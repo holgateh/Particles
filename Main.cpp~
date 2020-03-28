@@ -4,7 +4,7 @@
 
 int main()
 {
-	Sim sim = Sim::Sim();
+	Sim sim; 
 	return 0;
 }
 
