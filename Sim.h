@@ -1,4 +1,5 @@
 #include<vector>
+#include<SDL.h>
 
 #include"Particle.h"
 
@@ -8,10 +9,14 @@ class Sim
 		
 	private: 
 		std::vector<Particle> particles;
-	private:
-		void update();
-		void render();
+		float deltaTime;
+		SDL_Surface* surface = NULL;		
+		unsigned simWidth, simHeight;
 	public: 
-		Sim();
+		Sim(unsigned simWidth, unsigned simHeight, unsigned numParticles);
 		void run();
+	private:
+		void update(float deltaTime);
+		void render();
+	
 };	

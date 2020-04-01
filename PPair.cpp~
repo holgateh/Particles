@@ -1,0 +1,20 @@
+#include"PPair.h"
+template<class T>
+PPair<T>::PPair(T t1, T t2)
+{
+	this->t1 = t1;
+	this->t2 = t2;
+}
+
+template<class T>
+T PPair<T>::getFirst() 
+{
+	return this->t1;
+}
+
+template<class T>
+T PPair<T>::getSecond()
+{
+	return this->t2;
+}
+

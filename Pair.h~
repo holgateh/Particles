@@ -1,0 +1,12 @@
+#pragma once
+
+template <class T>
+class Pair
+{
+	private: 
+		T t1, t2; 
+	public:
+		Pair(T t1, T t2);
+		T getFirst();
+		T getSecond();
+};

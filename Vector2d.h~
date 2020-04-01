@@ -14,4 +14,4 @@ class Vector2d
 		Vector2d normalized();
 		void scale(float s);
 	private:
-}
+};
