@@ -4,9 +4,9 @@
 
 Particle::Particle(Vector2d pos, Vector2d vel, Vector2d acc, float radius, float density)
 {
-	this->pos = pos;
-	this->vel = vel;
-	this->acc = acc;
+	this->state.pos = pos;
+	this->state.vel = vel;
+	this->state.acc = acc;
 	this->radius = radius;
 	this->density = density;
 }
