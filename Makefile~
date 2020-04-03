@@ -1,4 +1,0 @@
-compile:
-	g++ *.cpp  -lm -D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL -lSDL
-run: 
-	./a.out
