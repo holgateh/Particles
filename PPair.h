@@ -11,6 +11,22 @@ class PPair
 		{
 			this->t1 = t1;
 			this->t2 = t2;
+		}	
+
+		PPair()
+		{
+
+		}
+
+		void setFirst(T* t1)
+		{
+			this->t1 = t1;
+
+		}
+
+		void setSecond(T* t2)
+		{
+			this->t2 = t2;
 		}
 
 		T * getFirst()

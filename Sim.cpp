@@ -81,6 +81,8 @@ void Sim::render()
 			       particles.at(i).getMass(), this->surface);
 		}
 	}
+	Vector2d v[] = { Vector2d(0, 0), Vector2d(0,100), Vector2d(100, 100)};
+	SDLHelperFunctions::rasterizeTriangle(v, 255, 255, 255, this->surface); 
 }
 
 void Sim::run()

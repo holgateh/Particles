@@ -1,6 +1,9 @@
 #pragma once
 #include<SDL.h>
 #include<math.h>
+#include<vector>
+#include"Vector2d.h"
+#include<utility>
 // we use the slightly less safe preprocessor macros to
 // implement these functions that work with multiple types.
 #define min(a,b)             (((a) < (b)) ? (a) : (b)) // min: Choose smaller of two scalars.
@@ -25,6 +28,12 @@ class SDLHelperFunctions
             ((int*)surface->pixels)[y2*(int)surface->w+x2] = bottom;
         }
 
+	static void line(Vector2d v1, Vector2d v2, int top, int middle, int bottom, SDL_Surface* surface)
+	{
+		line(v1.x, v1.y, v2.x, v2.y, top, middle, bottom, surface);
+	}
+
+
         static void circle(int x, int y, int r, SDL_Surface* surface)
         {
         	int n = 100;	// The number of sides of the n-agon.
@@ -35,4 +44,72 @@ class SDLHelperFunctions
         		     x + r*cos(2*M_PI*(float)(i+1)/n), y + r*sin(2*M_PI*(float)(i+1)/n), 255, 255, 255, surface);
         	}
         }
+
+	static void rasterizeTriangle(Vector2d v[3], int top, int middle, int bottom, SDL_Surface* surface)
+	{
+		//Sort so vertex with smallest first;
+		bool swap = false;
+		do
+		{	for(int i = 0; i < 2; i++)
+			{
+				if(v[i].y > v[i+1].y)
+				{
+					Vector2d temp = v[i];
+					v[i] = v[i+1];
+					v[i+1] = temp;
+					swap = true;	
+				}	
+			}	
+		}
+		while(swap);
+
+		float min = v[0].y;
+		float max = v[2].y;
+		
+		if(v[2].x <= v[1].x)
+		{
+			Vector2d temp = v[2];
+			v[2] = v[1];
+			v[1] = temp;
+		}
+		
+		int range = round(max - min);
+		std::pair<float, float> pair[range];
+		for(int i = 0; i < range; i++)
+		{
+			if(v[1].y < v[2].y)
+			{
+				if(i <= v[1].y - v[0].y)
+				{
+					pair[i].first = (v[0].x + (v[1].x - v[0].x)/(v[1].y - v[0].y) * i);
+				}		
+				else
+				{
+					pair[i].first = (v[1].x + (v[2].x - v[1].x)/(v[2].y - v[1].y) * i);
+				}
+
+				pair[i].second = (v[0].x + (v[2].x - v[0].x)/(v[2].y - v[0].y) * i);
+			}
+			else
+			{
+				if(i <= v[2].y - v[0].y)
+				{
+					pair[i].second = (v[0].x + (v[2].x - v[0].x)/(v[2].y - v[0].y) * i);
+				}		
+				else
+				{
+					pair[i].second = (v[2].x + (v[1].x - v[2].x)/(v[1].y - v[2].y) * i);
+				}
+
+				pair[i].first = (v[0].x + (v[1].x - v[0].x)/(v[1].y - v[0].y) * i);
+			}
+		}
+		
+		for(int i = 0; i < range; i++)
+		{
+			line(pair[i].first, v[0].y + i, pair[i].second, v[0].y + i, top, middle, bottom, surface);
+		}	
+
+
+	}	
 };
