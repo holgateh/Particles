@@ -10,6 +10,7 @@ class Sim
 	private: 
 		std::vector<Particle> particles;
 		float deltaTime;
+		float timeElapsed;
 		SDL_Surface* surface = NULL;		
 		unsigned simWidth, simHeight;
 	public: 

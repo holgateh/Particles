@@ -50,7 +50,9 @@ class SDLHelperFunctions
 		//Sort so vertex with smallest first;
 		bool swap = false;
 		do
-		{	for(int i = 0; i < 2; i++)
+		{	
+			swap = false;
+			for(int i = 0; i < 2; i++)
 			{
 				if(v[i].y > v[i+1].y)
 				{
@@ -62,52 +64,45 @@ class SDLHelperFunctions
 			}	
 		}
 		while(swap);
-
+		
 		float min = v[0].y;
 		float max = v[2].y;
-		
-		if(v[2].x <= v[1].x)
-		{
-			Vector2d temp = v[2];
-			v[2] = v[1];
-			v[1] = temp;
-		}
-		
-		int range = round(max - min);
+
+		int range = (int)(max - min);
 		std::pair<float, float> pair[range];
 		for(int i = 0; i < range; i++)
 		{
-			if(v[1].y < v[2].y)
+			if(v[2].x < v[1].x) // Triangle bend is on the right.
 			{
+				pair[i].first = v[0].x + (v[2].x - v[0].x)/(v[2].y - v[0].y) * i;
+				
 				if(i <= v[1].y - v[0].y)
 				{
-					pair[i].first = (v[0].x + (v[1].x - v[0].x)/(v[1].y - v[0].y) * i);
-				}		
+					pair[i].second = v[0].x + (v[1].x - v[0].x)/(v[1].y - v[0].y) * i;
+				}
 				else
 				{
-					pair[i].first = (v[1].x + (v[2].x - v[1].x)/(v[2].y - v[1].y) * i);
+					pair[i].second = v[1].x + (v[2].x - v[1].x)/(v[2].y - v[1].y) * (i - v[1].y + v[0].y);
 				}
-
-				pair[i].second = (v[0].x + (v[2].x - v[0].x)/(v[2].y - v[0].y) * i);
 			}
-			else
+			else // Triangle bend is on the left.
 			{
-				if(i <= v[2].y - v[0].y)
+				pair[i].second= v[0].x + (v[2].x - v[0].x)/(v[2].y - v[0].y) * i;
+				
+				if(i <= v[1].y - v[0].y) 
 				{
-					pair[i].second = (v[0].x + (v[2].x - v[0].x)/(v[2].y - v[0].y) * i);
-				}		
+					pair[i].first= v[0].x + (v[1].x - v[0].x)/(v[1].y - v[0].y) * i;
+				}
 				else
 				{
-					pair[i].second = (v[2].x + (v[1].x - v[2].x)/(v[1].y - v[2].y) * i);
+					pair[i].first= v[1].x + (v[2].x - v[1].x)/(v[2].y - v[1].y) * (i - v[1].y + v[0].y);
 				}
-
-				pair[i].first = (v[0].x + (v[1].x - v[0].x)/(v[1].y - v[0].y) * i);
 			}
 		}
 		
 		for(int i = 0; i < range; i++)
 		{
-			line(pair[i].first, v[0].y + i, pair[i].second, v[0].y + i, top, middle, bottom, surface);
+			line(pair[i].first, v[0].y + i, pair[i].second - 1, v[0].y + i, top, middle, bottom, surface);
 		}	
 
 

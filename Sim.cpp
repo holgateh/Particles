@@ -13,7 +13,7 @@
 
 void Sim::update(float deltaTime)
 {
-	std::cout << "Update started...\n";
+	this->timeElapsed += deltaTime;
 	std::vector<PPair<Particle>> collidingPairs;
 	unsigned numUpdates = 10;
 
@@ -27,11 +27,11 @@ void Sim::update(float deltaTime)
 			//Calculate static collisions:
 			for(unsigned j=0; j < this->particles.size(); j++)
 			{
-				if(i!=j && (dist(particles.at(i).state.pos, particles.at(j).state.pos) < particles.at(i).getMass() + particles.at(j).getMass()))
+				if(i!=j && (Vector2dHelperFunctions::dist(particles.at(i).state.pos, particles.at(j).state.pos) < particles.at(i).getMass() + particles.at(j).getMass()))
 				{
-					float overlap = particles.at(i).getMass() + particles.at(j).getMass() - dist(particles.at(i).state.pos, particles.at(j).state.pos);
-					Vector2d centerDir = sub(particles.at(j).state.pos, particles.at(i).state.pos);
-					normalize(centerDir);
+					float overlap = particles.at(i).getMass() + particles.at(j).getMass() - Vector2dHelperFunctions::dist(particles.at(i).state.pos, particles.at(j).state.pos);
+					Vector2d centerDir = Vector2dHelperFunctions::sub(particles.at(j).state.pos, particles.at(i).state.pos);
+					Vector2dHelperFunctions::normalize(centerDir);
 					particles.at(i).state.pos.x += -centerDir.x * overlap / 2;
 					particles.at(j).state.pos.x += centerDir.x * overlap / 2;
 					particles.at(i).state.pos.y += -centerDir.y * overlap / 2;
@@ -68,7 +68,6 @@ void Sim::update(float deltaTime)
 		PhysicsHelperFunctions::calculateParticleAcceleration(particles);
 
 	}
-	std::cout << "Update finished...\n";
 }
 
 void Sim::render()
@@ -81,7 +80,10 @@ void Sim::render()
 			       particles.at(i).getMass(), this->surface);
 		}
 	}
-	Vector2d v[] = { Vector2d(0, 0), Vector2d(0,100), Vector2d(100, 100)};
+	float r = 10.0f;
+	Vector2d v[] = {Vector2d(100 / (r*sin(timeElapsed)) , 100 / (r*sin(timeElapsed)) ),
+			Vector2d(150 / (r*sin(timeElapsed)) , 200 / (r*sin(timeElapsed)) ),
+			Vector2d(100 / (r*sin(timeElapsed)) , 300 / (r*sin(timeElapsed)) )};
 	SDLHelperFunctions::rasterizeTriangle(v, 255, 255, 255, this->surface); 
 }
 
@@ -124,6 +126,7 @@ void Sim::run()
 Sim::Sim(unsigned simWidth, unsigned simHeight, unsigned numParticles)
 {
 	this->deltaTime = 1.0f / 60.0f;
+	this->timeElapsed = 0.0f;
 	this->simWidth = simWidth;
 	this->simHeight = simHeight;
 

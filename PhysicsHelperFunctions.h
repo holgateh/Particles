@@ -27,13 +27,13 @@ class PhysicsHelperFunctions
 
 			static Vector2d getGravitationalAttraction(Particle &p1, Particle &p2)
 			{
-				float r = dist(p1.state.pos, p2.state.pos);
+				float r = Vector2dHelperFunctions::dist(p1.state.pos, p2.state.pos);
 
 				float force = (0.05f)*(p1.getMass())*(p2.getMass())/(r*r);
 
-				Vector2d direction = sub(p2.state.pos, p1.state.pos);
+				Vector2d direction = Vector2dHelperFunctions::sub(p2.state.pos, p1.state.pos);
 
-				normalize(direction);
+				Vector2dHelperFunctions::normalize(direction);
 
 			 	direction.scale(force);
 
